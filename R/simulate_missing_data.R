@@ -4,7 +4,8 @@
 #'
 #' @param x A data.frame.
 #' @param n Number of datasets to generate (default 1).
-#' @param prop Proportion of values to delete (default 0.1).
+#' @param prop Proportion of values to delete (passed to `p` in delete_MCAR; default 0.1).
+#' @param cols_mis A vector of column names or indices of columns in which missing values will be created.
 #' @param ... Additional arguments passed to delete_MCAR (e.g., seed).
 #' @return An object of class "simulations" containing:
 #'   \item{simulations}{Named list of data.frames (sim1, sim2, ...) with introduced missingness.}
@@ -20,7 +21,7 @@
 #' @import missMethods
 #' @importFrom utils head
 #' @export
-simulate_missing_data <- function(x, n = 1, prop = 0.1, ...) {
+simulate_missing_data <- function(x, n = 1, prop = 0.1, cols_mis, ...) {
   if (!is.data.frame(x)) stop("`x` must be a data.frame.")
   if (!requireNamespace("missMethods", quietly = TRUE)) stop("Please install the 'missMethods' package.")
   
@@ -30,8 +31,9 @@ simulate_missing_data <- function(x, n = 1, prop = 0.1, ...) {
   # Generate n datasets with MCAR missingness
   sims <- lapply(seq_len(n), function(i) {
     missMethods::delete_MCAR(
-      data = x_copy,
-      propMissing = prop,
+      ds = x_copy,
+      p  = prop,
+      cols_mis = cols_mis,
       ...
     )
   })
@@ -42,7 +44,7 @@ simulate_missing_data <- function(x, n = 1, prop = 0.1, ...) {
   structure(
     list(
       simulations = sims,
-      meta = list(n = n, prop = prop, extra = list(...))
+      meta        = list(n = n, prop = prop, extra = list(...))
     ),
     class = "simulations"
   )
