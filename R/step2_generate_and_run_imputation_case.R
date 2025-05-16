@@ -68,3 +68,5 @@ print.imputations <- function(x, ...) {
   cat("First imputed dataset preview (5 rows):\n")
   print(utils::head(x$imputations[[1]], 5))
 }
+
+

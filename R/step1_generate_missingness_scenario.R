@@ -22,7 +22,7 @@
 #' @import mice
 #' @importFrom utils head
 #' @export
-simulate_missing_data <- function(x, unit_id, n = 1, miss_func, prop = 0.1, ...) {
+step1_create_missingness_scenario <- function(x, unit_id, n = 1, miss_func, prop = 0.1, ...) {
 
   if (!is.data.frame(x)) stop("`x` must be a data.frame.")
   if (!requireNamespace("missMethods", quietly = TRUE)) stop("Please install the 'missMethods' package.")
@@ -58,7 +58,7 @@ simulate_missing_data <- function(x, unit_id, n = 1, miss_func, prop = 0.1, ...)
       meta = list(n = n, prop = prop, extra = list(...))
 
     ),
-    class = "miss_trials"
+    class = "missingness_scenario"
   )
 }
 
@@ -67,7 +67,7 @@ simulate_missing_data <- function(x, unit_id, n = 1, miss_func, prop = 0.1, ...)
 #' @param x An object of class "simulations".
 #' @param ... Additional arguments (ignored).
 #' @export
-print.miss_trials <- function(x, ...) {
+print.missingness_scenario <- function(x, ...) {
   cat("miss_trials object: ", length(x$miss_trials), " datasets\n")
   cat("prop =", x$meta$prop, "\n")
   cat("Datasets names: ", paste(names(x$miss_trials), collapse = ", "), "\n")

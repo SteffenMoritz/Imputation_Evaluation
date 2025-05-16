@@ -3,6 +3,34 @@ source("~/Imputation_Evaluation/R/impute_simulations.R")
 source("~/Imputation_Evaluation/R/evaluate_simulation_runs.R") 
 
 
+un_automatic()
+
+step1_create_missingness_scenario()
+step2_run_imputation_case()
+step3_compare_results()
+
+
+ggplot_scenario_barplot
+ggplot_scenario_xyz
+ggplot_scenario_
+
+ggplot_imputetion_case_barplot
+ggplot_imputation_
+
+ggplot_eval_plot
+
+
+scenario_generate
+scenario_generate_from_external_data
+scenario_get
+scenario_print_stats
+scenario_
+
+case_ggplot_
+case_run_(save_all_out)
+
+
+
 ### Function Definitions ####
 
 # Function to impute with a package e.g. missForest
