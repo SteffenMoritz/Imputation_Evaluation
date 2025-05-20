@@ -22,7 +22,7 @@
 #' @import mice
 #' @importFrom utils head
 #' @export
-step1_create_missingness_scenario <- function(x, unit_id, n = 1, miss_func, prop = 0.1, ...) {
+a_generate_missingness_scenario <- function(x, unit_id, n = 1, miss_func, prop = 0.1, ...) {
 
   if (!is.data.frame(x)) stop("`x` must be a data.frame.")
   if (!requireNamespace("missMethods", quietly = TRUE)) stop("Please install the 'missMethods' package.")

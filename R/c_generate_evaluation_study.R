@@ -34,7 +34,7 @@
 #'     }
 #'   }
 #' @export
-evaluate_simulation_runs <- function(imps_obj, original) {
+c_generate_evaluation_study <- function(imps_obj, original) {
   # 1. validate original
   if (!is.data.frame(original)) {
     stop("`original` must be a data.frame.")

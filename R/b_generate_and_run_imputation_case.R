@@ -27,7 +27,7 @@
 #'
 #' @importFrom utils head
 #' @export
-impute_simulations <- function(sims_obj, impute_fun, alg_name = NULL, ...) {
+b_generate_and_run_imputation_case <- function(sims_obj, impute_fun, alg_name = NULL, ...) {
   if (!inherits(sims_obj, "simulations")) stop("`sims_obj` must be of class 'simulations'.")
   if (!is.function(impute_fun)) stop("`impute_fun` must be a function.")
   
