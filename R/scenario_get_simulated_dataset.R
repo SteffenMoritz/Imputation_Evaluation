@@ -2,15 +2,17 @@
 #'
 #' This function produces a dataset with missing values based on a `missingness_scenario` object.
 #'
-#' @param missingness_scenario A list containing two elements: `meta` and `miss_iterations`.
+#' @param missingness_scenario A list containing three elements: `original_data`, `scenario_iteration` and `meta`.
 #' @param iter A single value specifying which iteration to retain.
 #'
 #' @return A data frame with missing values for the selected iteration.
 #'
 #' @examples
 #' missingness_scenario <- list(
-#'   meta = NULL,
-#'   miss_iterations = data.frame(ID = c(1, 2, 1, 2), iter = c(1, 1, 2, 2), value = c(NA, 5, 8, 5))
+#'   original_data = data.frame(ID = c(1, 2, 3, 4), var1 = c(7, 5, 9, 11), var2 = c(13, 21, 7, 15)),
+#'   miss_iterations = data.frame(ID = c(1, 1, 2, 1, 2), iter = c(1, 1, 1, 2, 2), 
+#'                                variable = c('var1', 'var2', 'var1', 'var1', 'var1')),
+#'   meta = NULL
 #' )
 #' 
 #' scenario_get_iteration(missingness_scenario, 3)

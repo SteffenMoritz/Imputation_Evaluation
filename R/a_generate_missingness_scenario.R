@@ -62,8 +62,6 @@ a_generate_missingness_scenario <- function(x, unit_id, n = 1, miss_func, prop =
     return(out_miss_i)
   }
   
-  # out_miss <- map_dfr(seq_len(n), one_iteration)
-  
   out_miss <- do.call(rbind, lapply(seq_len(n), one_iteration))
   
   # Reset the row index
