@@ -3,6 +3,7 @@
 #' This function applies a user-supplied imputation function to each simulated dataset stored in a `missingness_scenario` object.
 #'
 #' @param missingness_scenario An object of class `"missingness_scenario"` as returned by `a_generate_missingness_scenario()`.
+#' @param out_optimized A logical indicating if optimized version is desired or not.
 #' @param impute_fun A function that takes a `data.frame` and returns an imputed `data.frame`. This function will be applied to each simulated dataset.
 #' @param alg_name Character. Optional name of the imputation algorithm, stored in the output metadata (default is `NULL`).
 #' @param ... Additional arguments passed to `impute_fun`.
@@ -35,11 +36,9 @@
 #' @import parallel
 #' @export
 
-b_generate_and_run_imputation_case <- function(missingness_scenario, impute_fun, alg_name = NULL, ...) {
+b_generate_and_run_imputation_case <- function(missingness_scenario, out_optimized=TRUE, impute_fun, alg_name = NULL, ...) {
   if (!inherits(missingness_scenario, "missingness_scenario")) stop("`missingness_scenario` must be of class 'missingness_scenario'.")
   if (!is.function(impute_fun)) stop("`impute_fun` must be a function.")
-
-
 
   parallel <- F
 
@@ -64,23 +63,25 @@ b_generate_and_run_imputation_case <- function(missingness_scenario, impute_fun,
 
   } else {
     message("Only one core available — falling back to single-threaded mode.")
-    imps <- lapply(seq_len(missingness_scenario$meta$n), function(i) {
+    imps <- do.call(rbind, lapply(seq_len(missingness_scenario$meta$n), function(i) {
       df <- scenario_get_iteration(missingness_scenario, i)$scenario_iteration
       imp_df <- impute_fun(df, ...)
       if (!is.data.frame(imp_df)) stop("`impute_fun` must return a data.frame.")
-      imp_df
+      if (out_optimized){
+        out_create_from_case(missingness_scenario$original_data, imp_df, missingness_scenario$meta$unit_id)
+      }else{
+        imp_df
+      }
     })
+    )
   }
-
-
-
-  # Name each imputed dataset imp1, imp2, ...
-  names(imps) <- paste0("imp", seq_along(imps))
 
   structure(
     list(
       imputations = imps,
-      meta        = list(alg_name = alg_name, extra = list(...))
+      meta        = list(missingness_scenario = missingness_scenario,
+                         alg_name = alg_name,
+                         extra = list(...))
     ),
     class = "imputation_case"
   )
@@ -93,14 +94,12 @@ b_generate_and_run_imputation_case <- function(missingness_scenario, impute_fun,
 #' @export
 print.imputation_case <- function(x, ...) {
   cat("imputations object:\n")
-  cat("Number of imputations:", length(x$imputations), "
-")
   if (!is.null(x$meta$alg_name)) cat("Algorithm:", x$meta$alg_name, "
 ")
   cat("Imputation names:", paste(names(x$imputations), collapse = ", "), "
 ")
   cat("First imputed dataset preview (5 rows):\n")
-  print(utils::head(x$imputations[[1]], 5))
+  print(utils::head(x$imputations, 5))
 }
 
 

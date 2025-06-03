@@ -19,16 +19,6 @@
 #' @export
 scenario_save <- function(missingness_scenario, save_path, optimized=FALSE) {
 
-  # Source external file if provided
-  if (!is.null(here("R", "scenario_get_simulated_dataset.R"))) {
-    source(here("R", "scenario_get_simulated_dataset.R"))
-  }
-
-  # Ensure scenario_get_iteration is available
-  if (!exists("scenario_get_iteration", mode = "function")) {
-    stop("Function 'scenario_get_iteration' is not available. Please source or define it before running 'scenario_save'.")
-  }
-
   # Extract the miss_iterations element
   miss_iterations <- missingness_scenario$miss_iterations
 
@@ -44,7 +34,6 @@ scenario_save <- function(missingness_scenario, save_path, optimized=FALSE) {
     message("File saved successfully at: ", save_path)
 
   } else {
-    # one_iteration <- scenario_get_iteration(missingness_scenario, 5)$scenario_iteration
 
     n <- missingness_scenario$meta$n
 

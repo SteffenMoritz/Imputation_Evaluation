@@ -34,7 +34,7 @@ scenario_get_iteration(missingness_scenario, 3)
 
 missingness_scenario <- list(
   original_data = data.frame(ID = c(1, 2, 3, 4), var1 = c(7, 5, 9, 11), var2 = c(13, 21, 7, 15)),
-  miss_iterations = data.frame(ID = c(1, 1, 2, 1, 2), iter = c(1, 1, 1, 2, 2), 
+  miss_iterations = data.frame(ID = c(1, 1, 2, 1, 2), iter = c(1, 1, 1, 2, 2),
                                variable = c('var1', 'var2', 'var1', 'var1', 'var1')),
   meta = NULL
 )

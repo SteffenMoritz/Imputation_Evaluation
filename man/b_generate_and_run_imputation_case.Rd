@@ -6,6 +6,7 @@
 \usage{
 b_generate_and_run_imputation_case(
   missingness_scenario,
+  out_optimized = TRUE,
   impute_fun,
   alg_name = NULL,
   ...
@@ -13,6 +14,8 @@ b_generate_and_run_imputation_case(
 }
 \arguments{
 \item{missingness_scenario}{An object of class \code{"missingness_scenario"} as returned by \code{a_generate_missingness_scenario()}.}
+
+\item{out_optimized}{A logical indicating if optimized version is desired or not.}
 
 \item{impute_fun}{A function that takes a \code{data.frame} and returns an imputed \code{data.frame}. This function will be applied to each simulated dataset.}
 
